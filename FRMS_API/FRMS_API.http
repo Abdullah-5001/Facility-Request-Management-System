@@ -1,0 +1,28 @@
+@FRMS_API_HostAddress = http://localhost:5257
+
+GET {{FRMS_API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+POST {{FRMS_API_HostAddress}}/api/Auth/register
+Content-Type: application/json
+
+{
+	"fullName": "Test Requester",
+	"email": "test.requester@university.edu.pk",
+	"password": "FRMS@12345",
+	"role": "Requester"
+}
+
+###
+
+POST {{FRMS_API_HostAddress}}/api/Auth/login
+Content-Type: application/json
+
+{
+	"email": "admin@university.edu.pk",
+	"password": "FRMS@12345"
+}
+
+###
