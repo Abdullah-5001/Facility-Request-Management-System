@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FRMS_API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8af0bd348aef7208f29c3c31d2c8adf0bb1b486f")]
 [assembly: System.Reflection.AssemblyProductAttribute("FRMS_API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FRMS_API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
