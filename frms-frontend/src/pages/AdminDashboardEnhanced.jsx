@@ -167,12 +167,17 @@ export default function AdminDashboardEnhanced() {
 
   const filteredTickets = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return dispatchTickets.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    if (!q)
+      return dispatchTickets
+        .slice()
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     return dispatchTickets
       .filter((ticket) => {
         const idText = ticketIdLabel(ticket.requestID).toLowerCase();
-        const deptText = (ticket.departmentName || `dept ${ticket.departmentID}`).toLowerCase();
+        const deptText = (
+          ticket.departmentName || `dept ${ticket.departmentID}`
+        ).toLowerCase();
         const titleText = (ticket.title || "").toLowerCase();
         const locationText = (ticket.location || "").toLowerCase();
         return (
@@ -206,7 +211,9 @@ export default function AdminDashboardEnhanced() {
     return auditLogs.filter((entry) => {
       if (!q) return true;
       return (
-        String(entry.requestID || "").toLowerCase().includes(q) ||
+        String(entry.requestID || "")
+          .toLowerCase()
+          .includes(q) ||
         (entry.ticketTitle || "").toLowerCase().includes(q) ||
         (entry.departmentName || "").toLowerCase().includes(q) ||
         (entry.changedByName || "").toLowerCase().includes(q) ||
@@ -245,7 +252,11 @@ export default function AdminDashboardEnhanced() {
     e.preventDefault();
     setError("");
 
-    if (!userForm.fullName.trim() || !userForm.email.trim() || !userForm.password.trim()) {
+    if (
+      !userForm.fullName.trim() ||
+      !userForm.email.trim() ||
+      !userForm.password.trim()
+    ) {
       setError("Full name, email, and password are required.");
       return;
     }
@@ -267,7 +278,9 @@ export default function AdminDashboardEnhanced() {
         email: userForm.email,
         password: userForm.password,
         role: userForm.role,
-        departmentID: userForm.departmentID ? parseInt(userForm.departmentID, 10) : null,
+        departmentID: userForm.departmentID
+          ? parseInt(userForm.departmentID, 10)
+          : null,
         vendorID: userForm.vendorID ? parseInt(userForm.vendorID, 10) : null,
       });
       setIsCreateUserOpen(false);
@@ -310,17 +323,46 @@ export default function AdminDashboardEnhanced() {
     <>
       <div className="mb-8 grid gap-4 md:grid-cols-4">
         {[
-          { label: "Approved Dispatches", value: stats.pendingDispatch, icon: Send, tone: "text-red-500" },
-          { label: "Active Vendors", value: stats.vendorCount, icon: HardHat, tone: "text-blue-500" },
-          { label: "Department Heads", value: stats.deptHeads, icon: Users, tone: "text-amber-500" },
-          { label: "Audit Entries", value: stats.activeLogs, icon: FileText, tone: "text-green-500" },
+          {
+            label: "Approved Dispatches",
+            value: stats.pendingDispatch,
+            icon: Send,
+            tone: "text-red-500",
+          },
+          {
+            label: "Active Vendors",
+            value: stats.vendorCount,
+            icon: HardHat,
+            tone: "text-blue-500",
+          },
+          {
+            label: "Department Heads",
+            value: stats.deptHeads,
+            icon: Users,
+            tone: "text-amber-500",
+          },
+          {
+            label: "Audit Entries",
+            value: stats.activeLogs,
+            icon: FileText,
+            tone: "text-green-500",
+          },
         ].map((card) => (
-          <div key={card.label} className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
-            <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gray-50 ${card.tone}`}>
+          <div
+            key={card.label}
+            className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+          >
+            <div
+              className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gray-50 ${card.tone}`}
+            >
               <card.icon size={22} />
             </div>
-            <p className="mt-4 text-sm font-medium text-gray-500">{card.label}</p>
-            <p className="mt-1 text-3xl font-bold text-[#0B2545]">{card.value}</p>
+            <p className="mt-4 text-sm font-medium text-gray-500">
+              {card.label}
+            </p>
+            <p className="mt-1 text-3xl font-bold text-[#0B2545]">
+              {card.value}
+            </p>
           </div>
         ))}
       </div>
@@ -332,7 +374,9 @@ export default function AdminDashboardEnhanced() {
               <h2 className="text-xl font-bold text-[#0B2545] flex items-center gap-2">
                 <Send className="text-[#F26419]" size={20} /> Ticket Dispatch
               </h2>
-              <p className="mt-1 text-sm text-gray-500">Assign approved tickets to registered vendors.</p>
+              <p className="mt-1 text-sm text-gray-500">
+                Assign approved tickets to registered vendors.
+              </p>
             </div>
             <button
               type="button"
@@ -340,7 +384,10 @@ export default function AdminDashboardEnhanced() {
               disabled={refreshing}
               className="inline-flex items-center gap-2 rounded-2xl border border-gray-200 px-4 py-2.5 text-sm font-semibold text-[#0B2545] transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              <RefreshCw size={16} className={refreshing ? "animate-spin" : ""} />
+              <RefreshCw
+                size={16}
+                className={refreshing ? "animate-spin" : ""}
+              />
               Refresh
             </button>
           </div>
@@ -359,28 +406,61 @@ export default function AdminDashboardEnhanced() {
               <tbody className="divide-y divide-gray-100">
                 {loading ? (
                   <tr>
-                    <td colSpan={5} className="p-8 text-center text-sm text-gray-500">Loading...</td>
+                    <td
+                      colSpan={5}
+                      className="p-8 text-center text-sm text-gray-500"
+                    >
+                      Loading...
+                    </td>
                   </tr>
                 ) : filteredTickets.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="p-8 text-center text-sm text-gray-500">No approved tickets to dispatch.</td>
+                    <td
+                      colSpan={5}
+                      className="p-8 text-center text-sm text-gray-500"
+                    >
+                      No approved tickets to dispatch.
+                    </td>
                   </tr>
                 ) : (
                   filteredTickets.map((ticket) => (
-                    <tr key={ticket.requestID} className="hover:bg-gray-50 transition-colors">
+                    <tr
+                      key={ticket.requestID}
+                      className="hover:bg-gray-50 transition-colors"
+                    >
                       <td className="p-4">
-                        <div className="font-bold text-[#0B2545]">{ticketIdLabel(ticket.requestID)}</div>
-                        <div className="text-xs text-gray-500">{ticket.departmentName || `Dept ${ticket.departmentID}`}</div>
+                        <div className="font-bold text-[#0B2545]">
+                          {ticketIdLabel(ticket.requestID)}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          {ticket.departmentName ||
+                            `Dept ${ticket.departmentID}`}
+                        </div>
                       </td>
                       <td className="p-4">
-                        <div className="text-gray-800 font-medium">{ticket.title}</div>
-                        <div className="text-xs text-gray-500">{ticket.location || "Location unavailable"}</div>
+                        <div className="text-gray-800 font-medium">
+                          {ticket.title}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          {ticket.location || "Location unavailable"}
+                        </div>
                         {ticket.issueImageUrl ? (
-                          <a href={ticket.issueImageUrl} target="_blank" rel="noreferrer" className="mt-2 inline-block text-xs font-semibold text-[#F26419] underline">Open issue image</a>
+                          <a
+                            href={ticket.issueImageUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="mt-2 inline-block text-xs font-semibold text-[#F26419] underline"
+                          >
+                            Open issue image
+                          </a>
                         ) : null}
                       </td>
                       <td className="p-4">
-                        <span className={`rounded-full border px-3 py-1 text-xs font-bold ${priorityTone(ticket.priority)}`}>{ticket.priority || "Normal"}</span>
+                        <span
+                          className={`rounded-full border px-3 py-1 text-xs font-bold ${priorityTone(ticket.priority)}`}
+                        >
+                          {ticket.priority || "Normal"}
+                        </span>
                       </td>
                       <td className="p-4">
                         <select
@@ -395,7 +475,12 @@ export default function AdminDashboardEnhanced() {
                         >
                           <option value="">Select vendor...</option>
                           {vendors.map((vendor) => (
-                            <option key={vendor.vendorID} value={vendor.vendorID}>{vendor.companyName}</option>
+                            <option
+                              key={vendor.vendorID}
+                              value={vendor.vendorID}
+                            >
+                              {vendor.companyName}
+                            </option>
                           ))}
                         </select>
                       </td>
@@ -406,7 +491,9 @@ export default function AdminDashboardEnhanced() {
                           disabled={dispatchSubmitting[ticket.requestID]}
                           className="inline-flex items-center gap-2 rounded-2xl bg-[#F26419] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#d95714] disabled:cursor-not-allowed disabled:opacity-60"
                         >
-                          {dispatchSubmitting[ticket.requestID] ? "Dispatching..." : "Dispatch"}
+                          {dispatchSubmitting[ticket.requestID]
+                            ? "Dispatching..."
+                            : "Dispatch"}
                         </button>
                       </td>
                     </tr>
@@ -419,26 +506,56 @@ export default function AdminDashboardEnhanced() {
 
         <aside className="space-y-6">
           <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
-            <h3 className="text-lg font-bold text-[#0B2545]">Activity Snapshot</h3>
-            <p className="mt-1 text-sm text-gray-500">Current system status and quick actions.</p>
+            <h3 className="text-lg font-bold text-[#0B2545]">
+              Activity Snapshot
+            </h3>
+            <p className="mt-1 text-sm text-gray-500">
+              Current system status and quick actions.
+            </p>
             <div className="mt-5 grid gap-3">
-              <button type="button" onClick={() => setIsAddVendorOpen(true)} className="rounded-2xl bg-[#0B2545] px-4 py-3 text-left text-sm font-bold text-white transition-all duration-200 hover:bg-[#123d6d]">Add vendor</button>
-              <button type="button" onClick={() => setIsCreateUserOpen(true)} className="rounded-2xl border border-gray-200 px-4 py-3 text-left text-sm font-semibold text-[#0B2545] transition-all duration-200 hover:bg-gray-50">Create department head</button>
-              <button type="button" onClick={() => setActiveTab("logs")} className="rounded-2xl border border-gray-200 px-4 py-3 text-left text-sm font-semibold text-[#0B2545] transition-all duration-200 hover:bg-gray-50">Open audit logs</button>
+              <button
+                type="button"
+                onClick={() => setIsAddVendorOpen(true)}
+                className="rounded-2xl bg-[#0B2545] px-4 py-3 text-left text-sm font-bold text-white transition-all duration-200 hover:bg-[#123d6d]"
+              >
+                Add vendor
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsCreateUserOpen(true)}
+                className="rounded-2xl border border-gray-200 px-4 py-3 text-left text-sm font-semibold text-[#0B2545] transition-all duration-200 hover:bg-gray-50"
+              >
+                Create department head
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("logs")}
+                className="rounded-2xl border border-gray-200 px-4 py-3 text-left text-sm font-semibold text-[#0B2545] transition-all duration-200 hover:bg-gray-50"
+              >
+                Open audit logs
+              </button>
             </div>
           </div>
 
           <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
             <h3 className="text-lg font-bold text-[#0B2545]">Notifications</h3>
-            <p className="mt-1 text-sm text-gray-500">Recent dispatch and status updates.</p>
+            <p className="mt-1 text-sm text-gray-500">
+              Recent dispatch and status updates.
+            </p>
             <div className="mt-4 space-y-3">
               {recentNotifications.length === 0 ? (
-                <div className="rounded-2xl bg-gray-50 p-4 text-sm text-gray-500">No notifications right now.</div>
+                <div className="rounded-2xl bg-gray-50 p-4 text-sm text-gray-500">
+                  No notifications right now.
+                </div>
               ) : (
                 recentNotifications.map((item) => (
                   <div key={item.id} className="rounded-2xl bg-gray-50 p-4">
-                    <p className="text-sm font-semibold text-[#0B2545]">{item.title}</p>
-                    <p className="mt-1 text-xs text-gray-500">{item.subtitle}</p>
+                    <p className="text-sm font-semibold text-[#0B2545]">
+                      {item.title}
+                    </p>
+                    <p className="mt-1 text-xs text-gray-500">
+                      {item.subtitle}
+                    </p>
                   </div>
                 ))
               )}
@@ -454,15 +571,28 @@ export default function AdminDashboardEnhanced() {
       <section className="rounded-3xl border border-gray-100 bg-white shadow-sm">
         <div className="flex flex-col gap-4 border-b border-gray-100 p-6 md:flex-row md:items-center md:justify-between">
           <div>
-            <h2 className="text-xl font-bold text-[#0B2545]">User Management</h2>
-            <p className="mt-1 text-sm text-gray-500">Search and review admin-created accounts.</p>
+            <h2 className="text-xl font-bold text-[#0B2545]">
+              User Management
+            </h2>
+            <p className="mt-1 text-sm text-gray-500">
+              Search and review admin-created accounts.
+            </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <button type="button" onClick={() => setRoleFilter("All")} className={`rounded-2xl px-4 py-2.5 text-sm font-semibold transition-all duration-200 ${roleFilter === "All" ? "bg-[#0B2545] text-white" : "border border-gray-200 text-[#0B2545] hover:bg-gray-50"}`}>
+            <button
+              type="button"
+              onClick={() => setRoleFilter("All")}
+              className={`rounded-2xl px-4 py-2.5 text-sm font-semibold transition-all duration-200 ${roleFilter === "All" ? "bg-[#0B2545] text-white" : "border border-gray-200 text-[#0B2545] hover:bg-gray-50"}`}
+            >
               All Roles
             </button>
             {adminRoles.map((role) => (
-              <button key={role} type="button" onClick={() => setRoleFilter(role)} className={`rounded-2xl px-4 py-2.5 text-sm font-semibold transition-all duration-200 ${roleFilter === role ? "bg-[#0B2545] text-white" : "border border-gray-200 text-[#0B2545] hover:bg-gray-50"}`}>
+              <button
+                key={role}
+                type="button"
+                onClick={() => setRoleFilter(role)}
+                className={`rounded-2xl px-4 py-2.5 text-sm font-semibold transition-all duration-200 ${roleFilter === role ? "bg-[#0B2545] text-white" : "border border-gray-200 text-[#0B2545] hover:bg-gray-50"}`}
+              >
                 {role}
               </button>
             ))}
@@ -471,10 +601,15 @@ export default function AdminDashboardEnhanced() {
 
         <div className="divide-y divide-gray-100">
           {filteredUsers.length === 0 ? (
-            <div className="p-8 text-center text-sm text-gray-500">No matching users.</div>
+            <div className="p-8 text-center text-sm text-gray-500">
+              No matching users.
+            </div>
           ) : (
             filteredUsers.map((entry) => (
-              <div key={entry.userID} className="p-6 hover:bg-gray-50 transition-colors">
+              <div
+                key={entry.userID}
+                className="p-6 hover:bg-gray-50 transition-colors"
+              >
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                   <div className="flex items-center gap-4">
                     <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0B2545] text-sm font-bold text-white">
@@ -482,19 +617,33 @@ export default function AdminDashboardEnhanced() {
                     </div>
                     <div>
                       <div className="flex flex-wrap items-center gap-2">
-                        <h3 className="text-base font-bold text-[#0B2545]">{entry.fullName}</h3>
-                        <span className={`rounded-full px-3 py-1 text-xs font-bold ${statusBadgeClass(entry.role)}`}>{entry.role}</span>
+                        <h3 className="text-base font-bold text-[#0B2545]">
+                          {entry.fullName}
+                        </h3>
+                        <span
+                          className={`rounded-full px-3 py-1 text-xs font-bold ${statusBadgeClass(entry.role)}`}
+                        >
+                          {entry.role}
+                        </span>
                       </div>
-                      <p className="mt-1 text-sm text-gray-500">{entry.email}</p>
+                      <p className="mt-1 text-sm text-gray-500">
+                        {entry.email}
+                      </p>
                       <p className="mt-1 text-xs text-gray-500">
-                        {entry.departmentName ? `Department: ${entry.departmentName}` : "No department linked"}
-                        {entry.vendorName ? ` • Vendor: ${entry.vendorName}` : ""}
+                        {entry.departmentName
+                          ? `Department: ${entry.departmentName}`
+                          : "No department linked"}
+                        {entry.vendorName
+                          ? ` • Vendor: ${entry.vendorName}`
+                          : ""}
                       </p>
                     </div>
                   </div>
                   <div className="text-sm text-gray-500">
                     <div>ID {entry.userID}</div>
-                    <div>{entry.vendorID ? `Vendor #${entry.vendorID}` : ""}</div>
+                    <div>
+                      {entry.vendorID ? `Vendor #${entry.vendorID}` : ""}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -506,8 +655,14 @@ export default function AdminDashboardEnhanced() {
       <aside className="space-y-6">
         <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
           <h3 className="text-lg font-bold text-[#0B2545]">Create User</h3>
-          <p className="mt-1 text-sm text-gray-500">Add a department head or vendor login.</p>
-          <button type="button" onClick={() => setIsCreateUserOpen(true)} className="mt-4 w-full rounded-2xl bg-[#F26419] px-4 py-3 text-sm font-bold text-white transition-all duration-200 hover:bg-[#d95714]">
+          <p className="mt-1 text-sm text-gray-500">
+            Add a department head or vendor login.
+          </p>
+          <button
+            type="button"
+            onClick={() => setIsCreateUserOpen(true)}
+            className="mt-4 w-full rounded-2xl bg-[#F26419] px-4 py-3 text-sm font-bold text-white transition-all duration-200 hover:bg-[#d95714]"
+          >
             Open creation form
           </button>
         </div>
@@ -516,17 +671,30 @@ export default function AdminDashboardEnhanced() {
           <h3 className="text-lg font-bold text-[#0B2545]">Vendor Directory</h3>
           <div className="mt-4 space-y-3">
             {vendors.length === 0 ? (
-              <div className="rounded-2xl bg-gray-50 p-4 text-sm text-gray-500">No vendors available yet.</div>
+              <div className="rounded-2xl bg-gray-50 p-4 text-sm text-gray-500">
+                No vendors available yet.
+              </div>
             ) : (
               vendors.map((vendor) => (
-                <div key={vendor.vendorID} className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
-                  <div className="font-semibold text-[#0B2545]">{vendor.companyName}</div>
-                  <div className="mt-1 text-xs text-gray-500">Vendor ID {vendor.vendorID}</div>
+                <div
+                  key={vendor.vendorID}
+                  className="rounded-2xl border border-gray-100 bg-gray-50 p-4"
+                >
+                  <div className="font-semibold text-[#0B2545]">
+                    {vendor.companyName}
+                  </div>
+                  <div className="mt-1 text-xs text-gray-500">
+                    Vendor ID {vendor.vendorID}
+                  </div>
                 </div>
               ))
             )}
           </div>
-          <button type="button" onClick={() => setIsAddVendorOpen(true)} className="mt-4 w-full rounded-2xl border border-gray-200 px-4 py-3 text-sm font-semibold text-[#0B2545] transition-all duration-200 hover:bg-gray-50">
+          <button
+            type="button"
+            onClick={() => setIsAddVendorOpen(true)}
+            className="mt-4 w-full rounded-2xl border border-gray-200 px-4 py-3 text-sm font-semibold text-[#0B2545] transition-all duration-200 hover:bg-gray-50"
+          >
             Add vendor company
           </button>
         </div>
@@ -539,9 +707,16 @@ export default function AdminDashboardEnhanced() {
       <div className="flex flex-col gap-4 border-b border-gray-100 p-6 md:flex-row md:items-center md:justify-between">
         <div>
           <h2 className="text-xl font-bold text-[#0B2545]">Audit Logs</h2>
-          <p className="mt-1 text-sm text-gray-500">Track request status transitions and admin actions.</p>
+          <p className="mt-1 text-sm text-gray-500">
+            Track request status transitions and admin actions.
+          </p>
         </div>
-        <button type="button" onClick={() => fetchAll({ silent: true })} disabled={refreshing} className="inline-flex items-center gap-2 rounded-2xl border border-gray-200 px-4 py-2.5 text-sm font-semibold text-[#0B2545] transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60">
+        <button
+          type="button"
+          onClick={() => fetchAll({ silent: true })}
+          disabled={refreshing}
+          className="inline-flex items-center gap-2 rounded-2xl border border-gray-200 px-4 py-2.5 text-sm font-semibold text-[#0B2545] transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+        >
           <RefreshCw size={16} className={refreshing ? "animate-spin" : ""} />
           Refresh logs
         </button>
@@ -549,24 +724,50 @@ export default function AdminDashboardEnhanced() {
 
       <div className="divide-y divide-gray-100">
         {filteredLogs.length === 0 ? (
-          <div className="p-8 text-center text-sm text-gray-500">No audit entries found.</div>
+          <div className="p-8 text-center text-sm text-gray-500">
+            No audit entries found.
+          </div>
         ) : (
           filteredLogs.map((entry) => (
-            <div key={entry.logID} className="p-6 hover:bg-gray-50 transition-colors">
+            <div
+              key={entry.logID}
+              className="p-6 hover:bg-gray-50 transition-colors"
+            >
               <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className={`rounded-full px-3 py-1 text-xs font-bold ${statusBadgeClass(entry.newStatus)}`}>{entry.oldStatus || "New"} → {entry.newStatus || "Updated"}</span>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-bold text-gray-700">{ticketIdLabel(entry.requestID)}</span>
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-bold ${statusBadgeClass(entry.newStatus)}`}
+                    >
+                      {entry.oldStatus || "New"} →{" "}
+                      {entry.newStatus || "Updated"}
+                    </span>
+                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-bold text-gray-700">
+                      {ticketIdLabel(entry.requestID)}
+                    </span>
                   </div>
-                  <h3 className="mt-3 text-lg font-bold text-[#0B2545]">{entry.ticketTitle || "Ticket activity"}</h3>
-                  <p className="mt-1 text-sm text-gray-500">{entry.departmentName || "Unknown department"}{entry.vendorName ? ` • Vendor: ${entry.vendorName}` : ""}</p>
-                  <p className="mt-3 text-sm text-gray-600">{entry.comments || "No comments provided."}</p>
+                  <h3 className="mt-3 text-lg font-bold text-[#0B2545]">
+                    {entry.ticketTitle || "Ticket activity"}
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-500">
+                    {entry.departmentName || "Unknown department"}
+                    {entry.vendorName ? ` • Vendor: ${entry.vendorName}` : ""}
+                  </p>
+                  <p className="mt-3 text-sm text-gray-600">
+                    {entry.comments || "No comments provided."}
+                  </p>
                 </div>
                 <div className="text-sm text-gray-500 lg:text-right">
-                  <div className="font-semibold text-[#0B2545]">{entry.changedByName || "System"}</div>
+                  <div className="font-semibold text-[#0B2545]">
+                    {entry.changedByName || "System"}
+                  </div>
                   <div>{entry.changedByRole || "Admin"}</div>
-                  <div className="mt-1 flex items-center gap-1 lg:justify-end"><Clock size={14} /> {entry.changedDate ? new Date(entry.changedDate).toLocaleString() : "Unknown time"}</div>
+                  <div className="mt-1 flex items-center gap-1 lg:justify-end">
+                    <Clock size={14} />{" "}
+                    {entry.changedDate
+                      ? new Date(entry.changedDate).toLocaleString()
+                      : "Unknown time"}
+                  </div>
                 </div>
               </div>
             </div>
@@ -577,7 +778,10 @@ export default function AdminDashboardEnhanced() {
   );
 
   return (
-    <div className="flex h-screen bg-[#F8F9FA]" style={{ fontFamily: "Inter, sans-serif" }}>
+    <div
+      className="flex h-screen bg-[#F8F9FA]"
+      style={{ fontFamily: "Inter, sans-serif" }}
+    >
       <aside className="hidden w-64 flex-col bg-[#0B2545] text-white shadow-xl md:flex md:flex-col">
         <div className="border-b border-gray-700 p-6">
           <div className="mb-1 flex items-center gap-2">
@@ -588,19 +792,39 @@ export default function AdminDashboardEnhanced() {
         </div>
 
         <nav className="flex-1 space-y-2 p-4">
-          <button type="button" onClick={() => setActiveTab("overview")} className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-all duration-200 ${tabButtonClass(activeTab === "overview")}`}>
+          <button
+            type="button"
+            onClick={() => setActiveTab("overview")}
+            className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-all duration-200 ${tabButtonClass(activeTab === "overview")}`}
+          >
             <LayoutDashboard size={20} /> System Overview
           </button>
-          <button type="button" onClick={() => setActiveTab("dispatch")} className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-all duration-200 ${tabButtonClass(activeTab === "dispatch")}`}>
+          <button
+            type="button"
+            onClick={() => setActiveTab("dispatch")}
+            className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-all duration-200 ${tabButtonClass(activeTab === "dispatch")}`}
+          >
             <Send size={20} /> Ticket Dispatch
           </button>
-          <button type="button" onClick={() => setActiveTab("vendors")} className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-all duration-200 ${tabButtonClass(activeTab === "vendors")}`}>
+          <button
+            type="button"
+            onClick={() => setActiveTab("vendors")}
+            className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-all duration-200 ${tabButtonClass(activeTab === "vendors")}`}
+          >
             <HardHat size={20} /> Vendor Directory
           </button>
-          <button type="button" onClick={() => setActiveTab("users")} className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-all duration-200 ${tabButtonClass(activeTab === "users")}`}>
+          <button
+            type="button"
+            onClick={() => setActiveTab("users")}
+            className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-all duration-200 ${tabButtonClass(activeTab === "users")}`}
+          >
             <Users size={20} /> User Management
           </button>
-          <button type="button" onClick={() => setActiveTab("logs")} className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-all duration-200 ${tabButtonClass(activeTab === "logs")}`}>
+          <button
+            type="button"
+            onClick={() => setActiveTab("logs")}
+            className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-all duration-200 ${tabButtonClass(activeTab === "logs")}`}
+          >
             <FileText size={20} /> Audit Logs
           </button>
         </nav>
@@ -627,13 +851,17 @@ export default function AdminDashboardEnhanced() {
                 University Operations
               </h1>
               <p className="mt-2 max-w-2xl text-sm text-gray-500 md:text-base">
-                Manage PTUT facility requests, vendor assignments, users, and audit activity.
+                Manage PTUT facility requests, vendor assignments, users, and
+                audit activity.
               </p>
             </div>
 
             <div className="flex flex-col gap-3 xl:min-w-160">
               <div className="relative">
-                <Search size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                <Search
+                  size={18}
+                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                />
                 <input
                   type="text"
                   value={query}
@@ -650,7 +878,10 @@ export default function AdminDashboardEnhanced() {
                   disabled={refreshing}
                   className="inline-flex items-center justify-center gap-2 rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-[#0B2545] transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  <RefreshCw size={16} className={refreshing ? "animate-spin" : ""} />
+                  <RefreshCw
+                    size={16}
+                    className={refreshing ? "animate-spin" : ""}
+                  />
                   Refresh
                 </button>
 
@@ -686,8 +917,12 @@ export default function AdminDashboardEnhanced() {
 
                 <div className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-3 py-2 shadow-sm">
                   <div className="hidden text-right sm:block">
-                    <p className="text-sm font-bold text-[#0B2545]">{user?.name || "Admin"}</p>
-                    <p className="text-xs text-gray-500">Facilities Management</p>
+                    <p className="text-sm font-bold text-[#0B2545]">
+                      {user?.name || "Admin"}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      Facilities Management
+                    </p>
                   </div>
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F26419] font-bold text-white">
                     {initialsFromName(user?.name)}
@@ -711,26 +946,47 @@ export default function AdminDashboardEnhanced() {
             <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
               <section className="rounded-3xl border border-gray-100 bg-white shadow-sm">
                 <div className="border-b border-gray-100 p-6">
-                  <h2 className="text-xl font-bold text-[#0B2545]">Vendor Directory</h2>
-                  <p className="mt-1 text-sm text-gray-500">Registered vendors available for dispatch.</p>
+                  <h2 className="text-xl font-bold text-[#0B2545]">
+                    Vendor Directory
+                  </h2>
+                  <p className="mt-1 text-sm text-gray-500">
+                    Registered vendors available for dispatch.
+                  </p>
                 </div>
                 <div className="divide-y divide-gray-100">
                   {vendors.length === 0 ? (
-                    <div className="p-8 text-center text-sm text-gray-500">No vendors available.</div>
+                    <div className="p-8 text-center text-sm text-gray-500">
+                      No vendors available.
+                    </div>
                   ) : (
                     vendors.map((vendor) => (
-                      <div key={vendor.vendorID} className="p-6 hover:bg-gray-50 transition-colors">
+                      <div
+                        key={vendor.vendorID}
+                        className="p-6 hover:bg-gray-50 transition-colors"
+                      >
                         <div className="flex items-start justify-between gap-4">
                           <div>
-                            <h3 className="text-lg font-bold text-[#0B2545]">{vendor.companyName}</h3>
-                            <p className="mt-1 text-sm text-gray-500">Vendor ID {vendor.vendorID}</p>
+                            <h3 className="text-lg font-bold text-[#0B2545]">
+                              {vendor.companyName}
+                            </h3>
+                            <p className="mt-1 text-sm text-gray-500">
+                              Vendor ID {vendor.vendorID}
+                            </p>
                           </div>
-                          <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-700">Active</span>
+                          <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-700">
+                            Active
+                          </span>
                         </div>
                         <div className="mt-4 text-sm text-gray-600">
-                          {vendor.contactPerson ? <div>Contact: {vendor.contactPerson}</div> : null}
-                          {vendor.phoneNumber ? <div>Phone: {vendor.phoneNumber}</div> : null}
-                          {vendor.email ? <div>Email: {vendor.email}</div> : null}
+                          {vendor.contactPerson ? (
+                            <div>Contact: {vendor.contactPerson}</div>
+                          ) : null}
+                          {vendor.phoneNumber ? (
+                            <div>Phone: {vendor.phoneNumber}</div>
+                          ) : null}
+                          {vendor.email ? (
+                            <div>Email: {vendor.email}</div>
+                          ) : null}
                         </div>
                       </div>
                     ))
@@ -740,8 +996,12 @@ export default function AdminDashboardEnhanced() {
 
               <aside className="space-y-6">
                 <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
-                  <h3 className="text-lg font-bold text-[#0B2545]">Vendor Actions</h3>
-                  <p className="mt-1 text-sm text-gray-500">Create a vendor company and login user.</p>
+                  <h3 className="text-lg font-bold text-[#0B2545]">
+                    Vendor Actions
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-500">
+                    Create a vendor company and login user.
+                  </p>
                   <button
                     type="button"
                     onClick={() => setIsAddVendorOpen(true)}
@@ -754,9 +1014,24 @@ export default function AdminDashboardEnhanced() {
                 <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
                   <h3 className="text-lg font-bold text-[#0B2545]">Status</h3>
                   <div className="mt-4 space-y-3 text-sm text-gray-600">
-                    <div className="flex items-center justify-between"><span>Active vendors</span><span className="font-semibold text-[#0B2545]">{stats.vendorCount}</span></div>
-                    <div className="flex items-center justify-between"><span>Dispatch tickets</span><span className="font-semibold text-[#0B2545]">{stats.pendingDispatch}</span></div>
-                    <div className="flex items-center justify-between"><span>Audit events</span><span className="font-semibold text-[#0B2545]">{stats.activeLogs}</span></div>
+                    <div className="flex items-center justify-between">
+                      <span>Active vendors</span>
+                      <span className="font-semibold text-[#0B2545]">
+                        {stats.vendorCount}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Dispatch tickets</span>
+                      <span className="font-semibold text-[#0B2545]">
+                        {stats.pendingDispatch}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Audit events</span>
+                      <span className="font-semibold text-[#0B2545]">
+                        {stats.activeLogs}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </aside>
@@ -783,7 +1058,9 @@ export default function AdminDashboardEnhanced() {
           >
             <div className="flex items-center justify-between border-b border-gray-100 pb-3">
               <div>
-                <h4 className="text-base font-bold text-[#0B2545]">Notifications</h4>
+                <h4 className="text-base font-bold text-[#0B2545]">
+                  Notifications
+                </h4>
                 <p className="text-xs text-gray-500">Recent admin activity</p>
               </div>
               <button
@@ -797,16 +1074,31 @@ export default function AdminDashboardEnhanced() {
             </div>
             <div className="mt-3 space-y-3">
               {recentNotifications.length === 0 ? (
-                <div className="rounded-2xl bg-gray-50 p-4 text-sm text-gray-500">No notifications yet.</div>
+                <div className="rounded-2xl bg-gray-50 p-4 text-sm text-gray-500">
+                  No notifications yet.
+                </div>
               ) : (
                 recentNotifications.map((item) => (
-                  <button key={item.id} type="button" onClick={() => { setIsNotificationsOpen(false); if (item.subtitle?.startsWith("REQ-")) setActiveTab("dispatch"); }} className="flex w-full items-start gap-3 rounded-2xl bg-gray-50 p-3 text-left transition-all duration-200 hover:bg-white">
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      setIsNotificationsOpen(false);
+                      if (item.subtitle?.startsWith("REQ-"))
+                        setActiveTab("dispatch");
+                    }}
+                    className="flex w-full items-start gap-3 rounded-2xl bg-gray-50 p-3 text-left transition-all duration-200 hover:bg-white"
+                  >
                     <div className="mt-1 text-[#F26419]">
                       <AlertCircle size={18} />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold text-[#0B2545]">{item.title}</p>
-                      <p className="mt-1 text-xs text-gray-500">{item.subtitle}</p>
+                      <p className="truncate text-sm font-semibold text-[#0B2545]">
+                        {item.title}
+                      </p>
+                      <p className="mt-1 text-xs text-gray-500">
+                        {item.subtitle}
+                      </p>
                     </div>
                   </button>
                 ))
@@ -832,10 +1124,19 @@ export default function AdminDashboardEnhanced() {
             >
               <div className="flex items-start justify-between bg-[#0B2545] px-6 py-5 text-white">
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-blue-200">Create user</p>
-                  <h3 className="mt-1 text-2xl font-bold">Department head or vendor login</h3>
+                  <p className="text-xs uppercase tracking-wider text-blue-200">
+                    Create user
+                  </p>
+                  <h3 className="mt-1 text-2xl font-bold">
+                    Department head or vendor login
+                  </h3>
                 </div>
-                <button type="button" onClick={() => setIsCreateUserOpen(false)} className="rounded-full p-2 text-white/80 transition-colors hover:bg-white/10 hover:text-white" aria-label="Close creation modal">
+                <button
+                  type="button"
+                  onClick={() => setIsCreateUserOpen(false)}
+                  className="rounded-full p-2 text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+                  aria-label="Close creation modal"
+                >
                   <X size={20} />
                 </button>
               </div>
@@ -843,22 +1144,36 @@ export default function AdminDashboardEnhanced() {
               <form onSubmit={handleCreateUser} className="space-y-5 p-6">
                 <div className="grid gap-5 md:grid-cols-2">
                   <div>
-                    <label className="mb-2 block text-sm font-bold text-[#0B2545]">Full Name</label>
+                    <label className="mb-2 block text-sm font-bold text-[#0B2545]">
+                      Full Name
+                    </label>
                     <input
                       type="text"
                       value={userForm.fullName}
-                      onChange={(e) => setUserForm((current) => ({ ...current, fullName: e.target.value }))}
+                      onChange={(e) =>
+                        setUserForm((current) => ({
+                          ...current,
+                          fullName: e.target.value,
+                        }))
+                      }
                       className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 outline-none transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-[#F26419]"
                       placeholder="e.g. Engr. Ali Raza"
                       required
                     />
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-bold text-[#0B2545]">Email</label>
+                    <label className="mb-2 block text-sm font-bold text-[#0B2545]">
+                      Email
+                    </label>
                     <input
                       type="email"
                       value={userForm.email}
-                      onChange={(e) => setUserForm((current) => ({ ...current, email: e.target.value }))}
+                      onChange={(e) =>
+                        setUserForm((current) => ({
+                          ...current,
+                          email: e.target.value,
+                        }))
+                      }
                       className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 outline-none transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-[#F26419]"
                       placeholder="staff@ptut.edu.pk"
                       required
@@ -868,25 +1183,43 @@ export default function AdminDashboardEnhanced() {
 
                 <div className="grid gap-5 md:grid-cols-2">
                   <div>
-                    <label className="mb-2 block text-sm font-bold text-[#0B2545]">Password</label>
+                    <label className="mb-2 block text-sm font-bold text-[#0B2545]">
+                      Password
+                    </label>
                     <input
                       type="password"
                       value={userForm.password}
-                      onChange={(e) => setUserForm((current) => ({ ...current, password: e.target.value }))}
+                      onChange={(e) =>
+                        setUserForm((current) => ({
+                          ...current,
+                          password: e.target.value,
+                        }))
+                      }
                       className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 outline-none transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-[#F26419]"
                       placeholder="Minimum 6 characters"
                       required
                     />
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-bold text-[#0B2545]">Role</label>
+                    <label className="mb-2 block text-sm font-bold text-[#0B2545]">
+                      Role
+                    </label>
                     <select
                       value={userForm.role}
-                      onChange={(e) => setUserForm((current) => ({ ...current, role: e.target.value, departmentID: "", vendorID: "" }))}
+                      onChange={(e) =>
+                        setUserForm((current) => ({
+                          ...current,
+                          role: e.target.value,
+                          departmentID: "",
+                          vendorID: "",
+                        }))
+                      }
                       className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 outline-none transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-[#F26419]"
                     >
                       {adminRoles.map((role) => (
-                        <option key={role} value={role}>{role}</option>
+                        <option key={role} value={role}>
+                          {role}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -894,16 +1227,25 @@ export default function AdminDashboardEnhanced() {
 
                 {userForm.role === "DeptHead" && (
                   <div>
-                    <label className="mb-2 block text-sm font-bold text-[#0B2545]">Department</label>
+                    <label className="mb-2 block text-sm font-bold text-[#0B2545]">
+                      Department
+                    </label>
                     <select
                       value={userForm.departmentID}
-                      onChange={(e) => setUserForm((current) => ({ ...current, departmentID: e.target.value }))}
+                      onChange={(e) =>
+                        setUserForm((current) => ({
+                          ...current,
+                          departmentID: e.target.value,
+                        }))
+                      }
                       className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 outline-none transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-[#F26419]"
                       required
                     >
                       <option value="">Select department...</option>
                       {departments.map((department) => (
-                        <option key={department.id} value={department.id}>{department.name}</option>
+                        <option key={department.id} value={department.id}>
+                          {department.name}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -911,16 +1253,25 @@ export default function AdminDashboardEnhanced() {
 
                 {userForm.role === "Vendor" && (
                   <div>
-                    <label className="mb-2 block text-sm font-bold text-[#0B2545]">Vendor</label>
+                    <label className="mb-2 block text-sm font-bold text-[#0B2545]">
+                      Vendor
+                    </label>
                     <select
                       value={userForm.vendorID}
-                      onChange={(e) => setUserForm((current) => ({ ...current, vendorID: e.target.value }))}
+                      onChange={(e) =>
+                        setUserForm((current) => ({
+                          ...current,
+                          vendorID: e.target.value,
+                        }))
+                      }
                       className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 outline-none transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-[#F26419]"
                       required
                     >
                       <option value="">Select vendor...</option>
                       {vendors.map((vendor) => (
-                        <option key={vendor.vendorID} value={vendor.vendorID}>{vendor.companyName}</option>
+                        <option key={vendor.vendorID} value={vendor.vendorID}>
+                          {vendor.companyName}
+                        </option>
                       ))}
                     </select>
                   </div>

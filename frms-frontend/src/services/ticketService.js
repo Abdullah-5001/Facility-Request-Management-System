@@ -62,8 +62,20 @@ let _mockNextId = 1001;
 const nowIso = (offsetMs = 0) => new Date(Date.now() - offsetMs).toISOString();
 
 const mockVendors = [
-  { vendorID: 1, companyName: "Campus Repairs Co.", contactPerson: "Ali Khan", phoneNumber: "0400-111-222", email: "contact@campusrepairs.test" },
-  { vendorID: 2, companyName: "BrightFix Ltd.", contactPerson: "Sara Ahmed", phoneNumber: "0400-333-444", email: "hello@brightfix.test" },
+  {
+    vendorID: 1,
+    companyName: "Campus Repairs Co.",
+    contactPerson: "Ali Khan",
+    phoneNumber: "0400-111-222",
+    email: "contact@campusrepairs.test",
+  },
+  {
+    vendorID: 2,
+    companyName: "BrightFix Ltd.",
+    contactPerson: "Sara Ahmed",
+    phoneNumber: "0400-333-444",
+    email: "hello@brightfix.test",
+  },
 ];
 
 const mockTickets = [
@@ -111,7 +123,8 @@ const mockTickets = [
 
 const mockDelay = (ms = 250) => new Promise((r) => setTimeout(r, ms));
 
-const findMockTicket = (requestID) => mockTickets.find((t) => String(t.requestID) === String(requestID));
+const findMockTicket = (requestID) =>
+  mockTickets.find((t) => String(t.requestID) === String(requestID));
 
 // Helper to get local user info from localStorage (AuthContext uses same storage)
 const getLocalUser = () => {
@@ -148,7 +161,13 @@ export const ticketService = {
   createVendor: async ({ companyName, contactPerson, phoneNumber, email }) => {
     if (USE_MOCK) {
       await mockDelay();
-      const v = { vendorID: mockVendors.length + 1, companyName, contactPerson, phoneNumber, email };
+      const v = {
+        vendorID: mockVendors.length + 1,
+        companyName,
+        contactPerson,
+        phoneNumber,
+        email,
+      };
       mockVendors.push(v);
       return v;
     }
@@ -184,7 +203,14 @@ export const ticketService = {
   },
 
   // --- Requestor flow ---
-  createTicket: async ({ title, description, location, departmentID, departmentId, photo }) => {
+  createTicket: async ({
+    title,
+    description,
+    location,
+    departmentID,
+    departmentId,
+    photo,
+  }) => {
     if (USE_MOCK) {
       await mockDelay(400);
       const effectiveDepartmentId = departmentID ?? departmentId ?? 99;
@@ -208,7 +234,8 @@ export const ticketService = {
       const effectiveDepartmentId = departmentID ?? departmentId;
 
       const hasPhoto =
-        typeof FormData !== "undefined" && (photo instanceof File || photo instanceof Blob);
+        typeof FormData !== "undefined" &&
+        (photo instanceof File || photo instanceof Blob);
 
       if (hasPhoto) {
         const form = new FormData();
@@ -242,7 +269,9 @@ export const ticketService = {
       const user = getLocalUser();
       const userId = user?.userId || user?.id;
       if (!userId) return mockTickets.slice(0, 3).map(normalizeTicket);
-      return mockTickets.filter((t) => String(t.requesterID) === String(userId)).map(normalizeTicket);
+      return mockTickets
+        .filter((t) => String(t.requesterID) === String(userId))
+        .map(normalizeTicket);
     }
     try {
       const res = await axiosInstance.get("/tickets/my");
@@ -257,7 +286,13 @@ export const ticketService = {
     if (USE_MOCK) {
       await mockDelay();
       if (!departmentId) throw new Error("Missing departmentId.");
-      return mockTickets.filter((t) => String(t.departmentID) === String(departmentId) && (!status || t.status === status)).map(normalizeTicket);
+      return mockTickets
+        .filter(
+          (t) =>
+            String(t.departmentID) === String(departmentId) &&
+            (!status || t.status === status),
+        )
+        .map(normalizeTicket);
     }
     try {
       if (!departmentId) {
@@ -297,7 +332,9 @@ export const ticketService = {
   getApprovedTickets: async () => {
     if (USE_MOCK) {
       await mockDelay();
-      return mockTickets.filter((t) => t.status === "Approved").map(normalizeTicket);
+      return mockTickets
+        .filter((t) => t.status === "Approved")
+        .map(normalizeTicket);
     }
     try {
       const res = await axiosInstance.get("/tickets", {
@@ -336,8 +373,11 @@ export const ticketService = {
       if (!user) return [];
       // If user has vendorID, return tasks assigned to that vendor; otherwise return none
       const vendorId = user.vendorID || user.vendorId || null;
-      if (!vendorId) return mockTickets.filter((t) => t.vendorID).map(normalizeTicket);
-      return mockTickets.filter((t) => String(t.vendorID) === String(vendorId)).map(normalizeTicket);
+      if (!vendorId)
+        return mockTickets.filter((t) => t.vendorID).map(normalizeTicket);
+      return mockTickets
+        .filter((t) => String(t.vendorID) === String(vendorId))
+        .map(normalizeTicket);
     }
     try {
       const res = await axiosInstance.get("/tickets/my-assigned");

@@ -89,7 +89,14 @@ export const adminService = {
     }
   },
 
-  createUser: async ({ fullName, email, password, role, departmentID, vendorID }) => {
+  createUser: async ({
+    fullName,
+    email,
+    password,
+    role,
+    departmentID,
+    vendorID,
+  }) => {
     if (USE_MOCK) {
       await wait();
       const created = {

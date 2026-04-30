@@ -490,7 +490,10 @@ export default function Login() {
                     </button>
                   </div>
 
-                  <form onSubmit={handleForgotPassword} className="space-y-5 p-6">
+                  <form
+                    onSubmit={handleForgotPassword}
+                    className="space-y-5 p-6"
+                  >
                     <p className="text-sm leading-6 text-gray-600">
                       Enter your PTUT email address and we’ll prepare a password
                       reset request. The UI stays usable even while the server

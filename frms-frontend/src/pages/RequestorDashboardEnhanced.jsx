@@ -223,7 +223,10 @@ export default function RequestorDashboardEnhanced() {
   if (!isAuthenticated) return null;
 
   return (
-    <div className="flex h-screen bg-[#F8F9FA]" style={{ fontFamily: "Inter, sans-serif" }}>
+    <div
+      className="flex h-screen bg-[#F8F9FA]"
+      style={{ fontFamily: "Inter, sans-serif" }}
+    >
       <aside className="hidden w-72 flex-col border-r border-white/10 bg-[#0B2545] text-white shadow-2xl md:flex">
         <div className="border-b border-white/10 p-6">
           <div className="flex items-center gap-3">
@@ -325,7 +328,10 @@ export default function RequestorDashboardEnhanced() {
 
             <div className="flex flex-col gap-3 xl:min-w-xl">
               <div className="relative w-full">
-                <Search size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                <Search
+                  size={18}
+                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                />
                 <input
                   type="text"
                   value={query}
@@ -342,7 +348,10 @@ export default function RequestorDashboardEnhanced() {
                   disabled={refreshing}
                   className="inline-flex items-center justify-center gap-2 rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-[#0B2545] transition-all duration-200 hover:bg-gray-50 hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  <RefreshCw size={16} className={refreshing ? "animate-spin" : ""} />
+                  <RefreshCw
+                    size={16}
+                    className={refreshing ? "animate-spin" : ""}
+                  />
                   Refresh
                 </button>
 
@@ -366,8 +375,12 @@ export default function RequestorDashboardEnhanced() {
                   className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-3 py-2 text-left transition-all duration-200 hover:bg-gray-50 hover:shadow-sm"
                 >
                   <div className="hidden text-right sm:block">
-                    <p className="text-sm font-bold text-[#0B2545]">{user?.name || "Requestor"}</p>
-                    <p className="text-xs text-gray-500">{user?.email || "PTUT email"}</p>
+                    <p className="text-sm font-bold text-[#0B2545]">
+                      {user?.name || "Requestor"}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {user?.email || "PTUT email"}
+                    </p>
                   </div>
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0B2545] text-sm font-bold text-white">
                     {initialsFromName(user?.name)}
@@ -392,15 +405,21 @@ export default function RequestorDashboardEnhanced() {
 
               <div className="grid min-w-0 gap-3 sm:grid-cols-3 xl:w-lg xl:grid-cols-3">
                 <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
-                  <p className="text-xs uppercase tracking-[0.2em] text-blue-100">Total</p>
+                  <p className="text-xs uppercase tracking-[0.2em] text-blue-100">
+                    Total
+                  </p>
                   <p className="mt-2 text-3xl font-bold">{stats.total}</p>
                 </div>
                 <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
-                  <p className="text-xs uppercase tracking-[0.2em] text-blue-100">Active</p>
+                  <p className="text-xs uppercase tracking-[0.2em] text-blue-100">
+                    Active
+                  </p>
                   <p className="mt-2 text-3xl font-bold">{stats.active}</p>
                 </div>
                 <div className="rounded-2xl bg-white/10 p-4 backdrop-blur">
-                  <p className="text-xs uppercase tracking-[0.2em] text-blue-100">Resolved</p>
+                  <p className="text-xs uppercase tracking-[0.2em] text-blue-100">
+                    Resolved
+                  </p>
                   <p className="mt-2 text-3xl font-bold">{stats.resolved}</p>
                 </div>
               </div>
@@ -444,12 +463,18 @@ export default function RequestorDashboardEnhanced() {
                 key={card.label}
                 className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
               >
-                <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${card.tone}`}>
+                <div
+                  className={`flex h-12 w-12 items-center justify-center rounded-2xl ${card.tone}`}
+                >
                   <card.icon size={22} />
                 </div>
                 <div className="mt-4">
-                  <p className="text-sm font-medium text-gray-500">{card.label}</p>
-                  <p className="mt-1 text-3xl font-bold text-[#0B2545]">{card.value}</p>
+                  <p className="text-sm font-medium text-gray-500">
+                    {card.label}
+                  </p>
+                  <p className="mt-1 text-3xl font-bold text-[#0B2545]">
+                    {card.value}
+                  </p>
                 </div>
               </div>
             ))}
@@ -457,8 +482,12 @@ export default function RequestorDashboardEnhanced() {
 
           <div className="mb-6 flex flex-col gap-4 rounded-3xl border border-gray-100 bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h3 className="text-lg font-bold text-[#0B2545]">Ticket Filters</h3>
-              <p className="text-sm text-gray-500">Filter by request status and search the latest updates.</p>
+              <h3 className="text-lg font-bold text-[#0B2545]">
+                Ticket Filters
+              </h3>
+              <p className="text-sm text-gray-500">
+                Filter by request status and search the latest updates.
+              </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <div className="inline-flex rounded-2xl bg-gray-100 p-1">
@@ -498,7 +527,9 @@ export default function RequestorDashboardEnhanced() {
             <div className="rounded-3xl border border-gray-100 bg-white shadow-sm">
               <div className="flex flex-col gap-4 border-b border-gray-100 p-6 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <h3 className="text-xl font-bold text-[#0B2545]">My Recent Requests</h3>
+                  <h3 className="text-xl font-bold text-[#0B2545]">
+                    My Recent Requests
+                  </h3>
                   <p className="mt-1 text-sm text-gray-500">
                     Click any row to open the full ticket detail drawer.
                   </p>
@@ -509,7 +540,10 @@ export default function RequestorDashboardEnhanced() {
                   disabled={refreshing}
                   className="inline-flex items-center gap-2 rounded-2xl border border-gray-200 px-4 py-2.5 text-sm font-semibold text-[#0B2545] transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  <RefreshCw size={16} className={refreshing ? "animate-spin" : ""} />
+                  <RefreshCw
+                    size={16}
+                    className={refreshing ? "animate-spin" : ""}
+                  />
                   Sync now
                 </button>
               </div>
@@ -563,7 +597,11 @@ export default function RequestorDashboardEnhanced() {
                         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                           <div className="flex min-w-0 gap-4">
                             <div className={`mt-1 shrink-0 ${tone.icon}`}>
-                              {label === "Resolved" ? <CheckCircle size={22} /> : <Clock size={22} />}
+                              {label === "Resolved" ? (
+                                <CheckCircle size={22} />
+                              ) : (
+                                <Clock size={22} />
+                              )}
                             </div>
                             {ticket.issueImageUrl ? (
                               <img
@@ -575,10 +613,14 @@ export default function RequestorDashboardEnhanced() {
                             ) : null}
                             <div className="min-w-0">
                               <div className="flex flex-wrap items-center gap-2">
-                                <span className={`rounded-full border px-3 py-1 text-xs font-bold ${tone.chip}`}>
+                                <span
+                                  className={`rounded-full border px-3 py-1 text-xs font-bold ${tone.chip}`}
+                                >
                                   {label}
                                 </span>
-                                <span className={`rounded-full border px-3 py-1 text-xs font-bold ${priorityClass}`}>
+                                <span
+                                  className={`rounded-full border px-3 py-1 text-xs font-bold ${priorityClass}`}
+                                >
                                   {ticket.priority || "Normal"}
                                 </span>
                                 <span className="rounded-full border border-gray-200 bg-gray-100 px-3 py-1 text-xs font-bold text-gray-700">
@@ -589,14 +631,23 @@ export default function RequestorDashboardEnhanced() {
                                 {ticket.title}
                               </h4>
                               <p className="mt-1 line-clamp-2 text-sm text-gray-500">
-                                {ticket.description || "No additional notes were provided."}
+                                {ticket.description ||
+                                  "No additional notes were provided."}
                               </p>
                               <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-gray-500">
                                 <span className="inline-flex items-center gap-1">
-                                  <MapPin size={14} className="text-[#F26419]" />
+                                  <MapPin
+                                    size={14}
+                                    className="text-[#F26419]"
+                                  />
                                   {ticket.location || "Location unavailable"}
                                 </span>
-                                <span>Submitted {new Date(ticket.createdAt).toLocaleDateString()}</span>
+                                <span>
+                                  Submitted{" "}
+                                  {new Date(
+                                    ticket.createdAt,
+                                  ).toLocaleDateString()}
+                                </span>
                               </div>
                             </div>
                           </div>
@@ -606,7 +657,12 @@ export default function RequestorDashboardEnhanced() {
                               <div className="font-semibold text-[#0B2545]">
                                 {ticket.departmentName || "Department"}
                               </div>
-                              <div>{ticket.status === "Completed" ? "Closed" : "Open"} request</div>
+                              <div>
+                                {ticket.status === "Completed"
+                                  ? "Closed"
+                                  : "Open"}{" "}
+                                request
+                              </div>
                             </div>
                             <span className="inline-flex items-center gap-2 rounded-2xl bg-[#0B2545] px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-[#123d6d]">
                               View <Eye size={16} />
@@ -624,8 +680,12 @@ export default function RequestorDashboardEnhanced() {
               <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-lg font-bold text-[#0B2545]">Activity Snapshot</h3>
-                    <p className="mt-1 text-sm text-gray-500">Recent request updates and history.</p>
+                    <h3 className="text-lg font-bold text-[#0B2545]">
+                      Activity Snapshot
+                    </h3>
+                    <p className="mt-1 text-sm text-gray-500">
+                      Recent request updates and history.
+                    </p>
                   </div>
                   <History className="text-[#F26419]" size={20} />
                 </div>
@@ -652,12 +712,15 @@ export default function RequestorDashboardEnhanced() {
                               <p className="truncate text-sm font-semibold text-[#0B2545]">
                                 {ticket.title}
                               </p>
-                              <span className={`rounded-full border px-2.5 py-1 text-[11px] font-bold ${tone.chip}`}>
+                              <span
+                                className={`rounded-full border px-2.5 py-1 text-[11px] font-bold ${tone.chip}`}
+                              >
                                 {statusLabel(ticket.status)}
                               </span>
                             </div>
                             <p className="mt-1 text-xs text-gray-500">
-                              {ticketIdLabel(ticket.requestID)} • {new Date(ticket.createdAt).toLocaleDateString()}
+                              {ticketIdLabel(ticket.requestID)} •{" "}
+                              {new Date(ticket.createdAt).toLocaleDateString()}
                             </p>
                           </div>
                         </button>
@@ -668,7 +731,9 @@ export default function RequestorDashboardEnhanced() {
               </div>
 
               <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-[#0B2545]">Quick Actions</h3>
+                <h3 className="text-lg font-bold text-[#0B2545]">
+                  Quick Actions
+                </h3>
                 <div className="mt-4 grid gap-3">
                   <button
                     type="button"
@@ -716,8 +781,12 @@ export default function RequestorDashboardEnhanced() {
           >
             <div className="flex items-center justify-between border-b border-gray-100 pb-3">
               <div>
-                <h4 className="text-base font-bold text-[#0B2545]">Recent notifications</h4>
-                <p className="text-xs text-gray-500">Active or pending requests only.</p>
+                <h4 className="text-base font-bold text-[#0B2545]">
+                  Recent notifications
+                </h4>
+                <p className="text-xs text-gray-500">
+                  Active or pending requests only.
+                </p>
               </div>
               <button
                 type="button"
@@ -751,7 +820,8 @@ export default function RequestorDashboardEnhanced() {
                           {ticket.title}
                         </p>
                         <p className="mt-1 text-xs text-gray-500">
-                          {ticketIdLabel(ticket.requestID)} • {statusLabel(ticket.status)}
+                          {ticketIdLabel(ticket.requestID)} •{" "}
+                          {statusLabel(ticket.status)}
                         </p>
                       </div>
                     </button>
@@ -781,8 +851,12 @@ export default function RequestorDashboardEnhanced() {
             >
               <div className="flex items-start justify-between border-b border-gray-100 bg-[#0B2545] px-6 py-5 text-white">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-blue-200">Profile</p>
-                  <h3 className="mt-1 text-2xl font-bold">{user?.name || "Requestor"}</h3>
+                  <p className="text-xs uppercase tracking-[0.2em] text-blue-200">
+                    Profile
+                  </p>
+                  <h3 className="mt-1 text-2xl font-bold">
+                    {user?.name || "Requestor"}
+                  </h3>
                 </div>
                 <button
                   type="button"
@@ -801,31 +875,50 @@ export default function RequestorDashboardEnhanced() {
                       {initialsFromName(user?.name)}
                     </div>
                     <div>
-                      <p className="text-lg font-bold text-[#0B2545]">{user?.name || "Requestor"}</p>
-                      <p className="text-sm text-gray-500">{user?.email || "No email available"}</p>
+                      <p className="text-lg font-bold text-[#0B2545]">
+                        {user?.name || "Requestor"}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        {user?.email || "No email available"}
+                      </p>
                     </div>
                   </div>
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-3">
                   <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">Total</p>
-                    <p className="mt-2 text-2xl font-bold text-[#0B2545]">{stats.total}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">
+                      Total
+                    </p>
+                    <p className="mt-2 text-2xl font-bold text-[#0B2545]">
+                      {stats.total}
+                    </p>
                   </div>
                   <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">Pending</p>
-                    <p className="mt-2 text-2xl font-bold text-[#0B2545]">{stats.pending}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">
+                      Pending
+                    </p>
+                    <p className="mt-2 text-2xl font-bold text-[#0B2545]">
+                      {stats.pending}
+                    </p>
                   </div>
                   <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">Resolved</p>
-                    <p className="mt-2 text-2xl font-bold text-[#0B2545]">{stats.resolved}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">
+                      Resolved
+                    </p>
+                    <p className="mt-2 text-2xl font-bold text-[#0B2545]">
+                      {stats.resolved}
+                    </p>
                   </div>
                 </div>
 
                 <div className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm">
-                  <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400">Help</h4>
+                  <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400">
+                    Help
+                  </h4>
                   <p className="mt-3 text-sm leading-6 text-gray-600">
-                    Need to submit a new issue or follow up on an active request? Use the buttons below to keep the workflow moving.
+                    Need to submit a new issue or follow up on an active
+                    request? Use the buttons below to keep the workflow moving.
                   </p>
                   <div className="mt-4 space-y-3">
                     <button
@@ -881,7 +974,8 @@ export default function RequestorDashboardEnhanced() {
                     {selectedTicket.title}
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">
-                    {ticketIdLabel(selectedTicket.requestID)} • {new Date(selectedTicket.createdAt).toLocaleDateString()}
+                    {ticketIdLabel(selectedTicket.requestID)} •{" "}
+                    {new Date(selectedTicket.createdAt).toLocaleDateString()}
                   </p>
                 </div>
                 <button
@@ -905,9 +999,12 @@ export default function RequestorDashboardEnhanced() {
                     />
                   ) : null}
                   <div className="rounded-3xl border border-gray-100 bg-gray-50 p-5">
-                    <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400">Description</h4>
+                    <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400">
+                      Description
+                    </h4>
                     <p className="mt-3 text-sm leading-6 text-gray-700">
-                      {selectedTicket.description || "No additional issue notes were provided."}
+                      {selectedTicket.description ||
+                        "No additional issue notes were provided."}
                     </p>
                   </div>
                 </div>
@@ -916,12 +1013,22 @@ export default function RequestorDashboardEnhanced() {
                   {[
                     ["Status", statusLabel(selectedTicket.status)],
                     ["Priority", selectedTicket.priority || "Normal"],
-                    ["Department", selectedTicket.departmentName || "Requestor portal"],
+                    [
+                      "Department",
+                      selectedTicket.departmentName || "Requestor portal",
+                    ],
                     ["Location", selectedTicket.location || "Unknown"],
                   ].map(([label, value]) => (
-                    <div key={label} className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
-                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">{label}</p>
-                      <p className="mt-2 text-sm font-semibold text-[#0B2545]">{value}</p>
+                    <div
+                      key={label}
+                      className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm"
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">
+                        {label}
+                      </p>
+                      <p className="mt-2 text-sm font-semibold text-[#0B2545]">
+                        {value}
+                      </p>
                     </div>
                   ))}
 
